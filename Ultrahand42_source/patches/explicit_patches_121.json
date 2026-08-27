@@ -1,0 +1,47 @@
+{
+  "build_id": "9B4E43650501A4D4",
+  "patches": [
+    {
+      "addr": "0176FE80",
+      "old": "7100591F",
+      "new": "7100AD1F",
+      "name": "SoftConstraint::calc",
+      "note": "Live attach gate: getNumCombinedActor()+extra >= 22  →  >= 43 (allow 42 parts)"
+    },
+    {
+      "addr": "01655A4C",
+      "old": "7100591F",
+      "new": "7100AD1F",
+      "name": "SearchBindPoints",
+      "note": "Ultrahand bind-point reject: 1+count >= 22  →  >= 43"
+    },
+    {
+      "addr": "00AF0DAC",
+      "old": "7100591F",
+      "new": "7100AD1F",
+      "name": "SpecialPowerReceiver::postCalcUltraHand",
+      "note": "Safety valve: if integrator count >= 22, removeAllBond  →  >= 43"
+    },
+    {
+      "addr": "00FF4CB8",
+      "old": "7100593F",
+      "new": "7100AD3F",
+      "name": "CombineModule::calc",
+      "note": "Bond-list software cap: count >= 22  →  >= 43 (list is a linked OffsetList, safe)"
+    },
+    {
+      "addr": "00FF5578",
+      "old": "51005535",
+      "new": "5100A935",
+      "name": "CombineModule::calc overflow walk",
+      "note": "sub extras, count-21  →  count-42 so leftover-bond cleanup matches the new cap"
+    },
+    {
+      "addr": "010F9FAC",
+      "old": "F900CE7F",
+      "new": "0B090129",
+      "name": "phive::ConstraintMgr::ConstraintMgr",
+      "note": "Double Havok/Phive constraint pool: replace str xzr,[x19,#0x198] with add w9,w9,w9 before the pool-size store. 0x198 is written later in initializeImpl."
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+@nsobid-9B4E43650501A4D4
+
+@flag print_values
+@flag offset_shift 0x100
+
+// Ultrahand 42 for TOTK 1.2.1  (BID 9B4E43650501A4D4)
+// Live part cap 21 -> 42 (cmp #22 -> #43 on SoftConstraint /
+// SearchBindPoints / postCalcUltraHand / CombineModule::calc).
+// Phive constraint pool count is doubled in ConstraintMgr ctor.
+// CombinedActorInfo (.cai) is still a 21-slot save blob.
+
+@enabled
+0176FE80 7100AD1F // SoftConstraint::calc: Live attach gate: getNumCombinedActor()+extra >= 22  →  >= 43 (allow 42 parts)
+01655A4C 7100AD1F // SearchBindPoints: Ultrahand bind-point reject: 1+count >= 22  →  >= 43
+00AF0DAC 7100AD1F // SpecialPowerReceiver::postCalcUltraHand: Safety valve: if integrator count >= 22, removeAllBond  →  >= 43
+00FF4CB8 7100AD3F // CombineModule::calc: Bond-list software cap: count >= 22  →  >= 43 (list is a linked OffsetList, safe)
+00FF5578 5100A935 // CombineModule::calc overflow walk: sub extras, count-21  →  count-42 so leftover-bond cleanup matches the new cap
+010F9FAC 0B090129 // phive::ConstraintMgr::ConstraintMgr: Double Havok/Phive constraint pool: replace str xzr,[x19,#0x198] with add w9,w9,w9 before the pool-size store. 0x198 is written later in initializeImpl.
+@stop
+
+// --- findings NOT applied (CAI struct / unsafe) ---
